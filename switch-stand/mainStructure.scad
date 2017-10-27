@@ -5,6 +5,7 @@ use <./prolongation.scad>
 use <../utils/libtoolwall/primitives/distributeChildren.scad>
 
 // @example
+rotate([ 30 - 90, 0, 0 ])
 mainStructure(2, 25, -30);
 
 module mainStructure(

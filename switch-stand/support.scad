@@ -1,22 +1,49 @@
 include <./const.scad>
 
 // @example
-support(SUPPORT_WIDTH, SWITCH_HEIGHT / 2, 35, -30, 2);
+support(SUPPORT_WIDTH, SWITCH_HEIGHT / 2, 35, -30, 2, 30, true);
 
 module support(
   supportWidth,
-  backHeigh,
+  backHeight,
   prolongationHeight,
   rotationAngle,
   backDepth,
-  compensation = 30
+  compensation = 30,
+  layFlat = false
 ) {
 
   supportDepth = 10;
-  supportHeight = sin(180 - 90 - abs(rotationAngle)) * ((backHeigh / 2) + prolongationHeight - backDepth);
+  supportHeight = sin(180 - 90 - abs(rotationAngle)) * ((backHeight / 2) + prolongationHeight - backDepth);
   foo = cos(abs(rotationAngle)) * supportDepth / sin(abs(rotationAngle)); // TODO: find a better name
 
-  bar = cos(180 - 90 - abs(rotationAngle)) * ((backHeigh / 2) + prolongationHeight - backDepth) + cos(abs(rotationAngle)) * backDepth; // TODO: find a better name
+  bar = cos(180 - 90 - abs(rotationAngle)) * ((backHeight / 2) + prolongationHeight - backDepth) + cos(abs(rotationAngle)) * backDepth; // TODO: find a better name
+
+  h = sqrt(pow(compensation, 2) + pow(supportHeight + foo, 2));
+  a = acos((compensation) / h);
+
+  if (layFlat) {
+    rotate([ a + 180, 0, 0 ])
+    _support(rotationAngle, backHeight, prolongationHeight, backDepth, compensation, supportWidth, supportDepth, supportHeight, foo);
+  } else {
+    _support(rotationAngle, backHeight, prolongationHeight, backDepth, compensation, supportWidth, supportDepth, supportHeight, foo);
+  }
+
+}
+
+module _support(
+  rotationAngle,
+  backHeight,
+  prolongationHeight,
+  backDepth,
+  compensation,
+  supportWidth,
+  supportDepth,
+  supportHeight,
+  foo
+) {
+
+  bar = cos(180 - 90 - abs(rotationAngle)) * ((backHeight / 2) + prolongationHeight - backDepth) + cos(abs(rotationAngle)) * backDepth; // TODO: find a better name
 
   translate([ 0, bar, 0 ])
   polyhedron(
