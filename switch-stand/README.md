@@ -2,8 +2,10 @@
 
 Because the Switch kickstand is 💩 (unstable, impossible to charge while using it), I decided to create my own.
 
+![](images/model-front.png)
+![](images/front.jpg)
 
-## ⚠️ This is currently a WIP ⚠️
+![](images/model-back.png)
+![](images/back.jpg)
 
-![](images/wip1.png)
-![](images/wip2.png)
+![](images/with-switch.jpg)
